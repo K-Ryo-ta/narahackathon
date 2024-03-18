@@ -2,13 +2,21 @@
 import { DocumentData } from 'firebase/firestore';
 import React from 'react';
 
-const Table = ({ aggregatedData }: { aggregatedData: DocumentData[] }) => {
-    const renderTableRows = (index: number) => {
-        if (aggregatedData[index]) {
-            const data = aggregatedData[index];
+const Table = ({ aggregatedData, questionKey }: { aggregatedData: DocumentData; questionKey: string }) => {
+    const renderTableRows = () => {
+        if (aggregatedData) {
+            const data = aggregatedData;
             const total = data.total;
             const entries = Object.entries(data).filter(([key]) => key !== 'total');
             let percentage: number = 0;
+            // aggregatedDataをオブジェクトに変換
+            const convertedData: { [key: string]: number } = {};
+            Object.entries(aggregatedData).forEach(([key, value]) => {
+                if (key !== 'total') {
+                    convertedData[key] = value as number;
+                }
+            });
+
             return (
                 <>
                     {entries.map(([key, value]) => (
@@ -24,8 +32,8 @@ const Table = ({ aggregatedData }: { aggregatedData: DocumentData[] }) => {
                         <td className="px-4 py-2">{total}</td>
                         <td className="px-4 py-2">100%</td>
                     </tr>
-                    <br/>
-                    <br/>
+                    <br />
+                    <br />
                 </>
             );
         }
@@ -33,7 +41,7 @@ const Table = ({ aggregatedData }: { aggregatedData: DocumentData[] }) => {
     };
 
     return (
-        <div className="container mx-auto">
+        <div className="w-full">
             <h2 className="text-2xl font-bold mb-4">アンケート結果</h2>
             <table className="w-full bg-white rounded-lg overflow-hidden">
                 <thead>
@@ -45,25 +53,9 @@ const Table = ({ aggregatedData }: { aggregatedData: DocumentData[] }) => {
                 </thead>
                 <tbody>
                     <tr>
-                        <td colSpan={2} className="px-4 py-2 bg-gray-100 font-bold">問1</td>
+                        <td colSpan={2} className="px-4 py-2 bg-gray-100 font-bold">問{questionKey}</td>
                     </tr>
-                    {renderTableRows(0)}
-                    <tr>
-                        <td colSpan={2} className="px-4 py-2 bg-gray-100 font-bold">問2</td>
-                    </tr>
-                    {renderTableRows(1)}
-                    <tr>
-                        <td colSpan={2} className="px-4 py-2 bg-gray-100 font-bold">問3</td>
-                    </tr>
-                    {renderTableRows(2)}
-                    <tr>
-                        <td colSpan={2} className="px-4 py-2 bg-gray-100 font-bold">問4</td>
-                    </tr>
-                    {renderTableRows(3)}
-                    <tr>
-                        <td colSpan={2} className="px-4 py-2 bg-gray-100 font-bold">問5</td>
-                    </tr>
-                    {renderTableRows(4)}
+                    {renderTableRows()}
                 </tbody>
             </table>
         </div>
