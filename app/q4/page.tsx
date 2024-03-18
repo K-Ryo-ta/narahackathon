@@ -9,7 +9,7 @@ import { aggregateStats, getData, saveResponse } from "@/lib/firebase";
 import { isSupported } from "firebase/analytics";
 import { getAnalytics } from "firebase/analytics";
 import { DocumentData } from "firebase/firestore";
-import { useStateContext } from "../stateManegement";
+import StateContext from "../stateManegement";
 
 const Page4 = () => {
     const router = useRouter();
@@ -17,7 +17,7 @@ const Page4 = () => {
     const [data, setData] = useState<DocumentData | null>(null);
     const [docId, setDocId] = useState<string | null>(null);
     const [progress, setProgress] = useState<number>(60);
-    const { state, setState } = useStateContext();
+    const stateInfo = useContext(StateContext);
 
     useEffect(() => {
         if (docId) {
@@ -25,33 +25,22 @@ const Page4 = () => {
         }
     }, [docId]);
 
-    const IsBrank = (props: string) => {
-        // if (props == "/^\s*$/") return false;
-        // else return true;
-        return /^\s*$/.test(props);
-    };
-
     const NextRouteHandleClick = async (event: MouseEvent<HTMLButtonElement, globalThis.MouseEvent>) => {
         event.preventDefault();
-        console.log(IsBrank(state.q4));
-        if (state.q4) {
-            if (!IsBrank(state.q4)) {
-                const docID = await saveResponse("q4", answer);
-                if (docID) {
-                    setState(prevState => ({
-                        ...prevState,
-                        docRefID4: docID,
-                    }));
-                    setDocId(docID);
-                }
-                // 回答が選択されている場合は次のページに遷移
-                console.log(state.q4);
-                router.push('/q5');
-            } else {
-                alert('文字を入力してください');
+        if (answer) {
+            const docID = await saveResponse("q4", answer);
+            if (docID) {
+                stateInfo.docRefID4 = docID
             }
+            console.log(stateInfo.docRefID4);
+            if (stateInfo.docRefID4) {
+                setDocId(stateInfo.docRefID4);
+            }
+            // 回答が選択されている場合は次のページに遷移
+            router.push('/q5');
         } else {
-            alert('回答を選択してください');
+            // 回答が選択されていない場合はアラートを表示
+            alert('回答を選択してください。');
         }
     }
 
@@ -63,19 +52,11 @@ const Page4 = () => {
     const handleAnswer = (selectedAnswer: string) => {
         setAnswer(selectedAnswer);
         setProgress(80);
-        setState(prevState => ({
-            ...prevState,
-            q4: selectedAnswer,
-        }));
+        stateInfo.q4 = selectedAnswer;
     }
 
     const handleOtherAnswer = (event: React.ChangeEvent<HTMLInputElement>) => {
         setAnswer(event.target.value);
-        setState(prevState => ({
-            ...prevState,
-            q4: event.target.value,
-        }));
-        setProgress(80);
     }
 
     useEffect(() => {
