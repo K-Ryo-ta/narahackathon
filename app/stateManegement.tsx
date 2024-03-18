@@ -1,4 +1,3 @@
-// stateManegement.tsx
 import { createContext, useContext, useState } from 'react';
 import Page1 from './q1/page';
 import Page2 from './q2/page';
@@ -7,53 +6,35 @@ import Page4 from './q4/page';
 import Page5 from './q5/page';
 import FinishPage from './finish/page';
 
-type StateType = {
-    question: number;
-    q1: string;
-    q2: string;
-    q3: string;
-    q4: string;
-    q5: string;
-    docRefID1: string | null; 
-    docRefID2: string | null; 
-    docRefID3: string | null; 
-    docRefID4: string | null; 
-    docRefID5: string | null; 
-};
-
-const initialState: StateType = {
-    question: 5,
+const stateInfo = {
     q1: "",
     q2: "",
     q3: "",
     q4: "",
     q5: "",
-    docRefID1: null,
-    docRefID2: null,
-    docRefID3: null,
-    docRefID4: null,
-    docRefID5: null,
+    docRefID1: "",
+    docRefID2: "",
+    docRefID3: "",
+    docRefID4: "",
+    docRefID5: "",
 };
 
-type StateContextType = {
-    state: StateType;
-    setState: React.Dispatch<React.SetStateAction<StateType>>;
-};
+const StateContext = createContext(stateInfo);
 
-const StateContext = createContext<StateContextType>({
-    state: initialState,
-    setState: () => {},
-});
-
-export const useStateContext = () => useContext(StateContext);
-
-export function StateProvider({ children }: { children: React.ReactNode }) {
-    const [state, setState] = useState<StateType>(initialState);
+function StateManegement() {
 
     return (
-        <StateContext.Provider value={{ state, setState }}>
-            {children}
-        </StateContext.Provider>
+        <div className="StateMangement">
+            <StateContext.Provider value={stateInfo}>
+                <Page1 />
+                <Page2 />
+                <Page3 />
+                <Page4 />
+                <Page5 />
+                <FinishPage />
+            </StateContext.Provider>
+        </div>
     );
 }
 
+export default StateContext;
