@@ -6,7 +6,7 @@ import { cn } from "@/lib/utils";
 import Header from "@/components/Header";
 import { Providers } from './providers'
 
-export const fontSans = FontSans({
+const fontSans = FontSans({
   subsets: ["latin"],
   variable: "--font-sans",
 });
@@ -26,8 +26,8 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={cn(
-        "min-h-screen bg-background font-sans antialiased mx-auto",
-        fontSans.variable
+        "min-h-screen bg-background antialiased mx-auto",
+        fontSans.className
       )}>
         <Providers>
           <Header />
