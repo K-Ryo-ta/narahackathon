@@ -4,11 +4,13 @@ import { Button, ButtonGroup } from '@chakra-ui/react'
 import { useRouter } from 'next/navigation';
 import { MouseEvent } from 'react';
 import { Progress } from '@chakra-ui/react'
-import { useState } from 'react';
+import { useState, useContext } from 'react';
+import StateContext from "../stateManegement";
 
-const page = () => {
+const FinishPage = () => {
     const router = useRouter();
     const [answer, setAnswer] = useState<string | null>(null);
+    const stateInfo = useContext(StateContext);
 
     const NextRouteHandleClick = (event: MouseEvent<HTMLButtonElement, globalThis.MouseEvent>) => {
         event.preventDefault();
@@ -67,4 +69,4 @@ const page = () => {
     )
 }
 
-export default page
+export default FinishPage;
