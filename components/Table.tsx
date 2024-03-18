@@ -32,8 +32,6 @@ const Table = ({ aggregatedData, questionKey }: { aggregatedData: DocumentData; 
                         <td className="px-4 py-2">{total}</td>
                         <td className="px-4 py-2">100%</td>
                     </tr>
-                    <br />
-                    <br />
                 </>
             );
         }
@@ -53,9 +51,12 @@ const Table = ({ aggregatedData, questionKey }: { aggregatedData: DocumentData; 
                 </thead>
                 <tbody>
                     <tr>
-                        <td colSpan={2} className="px-4 py-2 bg-gray-100 font-bold">問{questionKey}</td>
+                        <td colSpan={3} className="px-4 py-2 bg-gray-100 font-bold">問{questionKey}</td>
                     </tr>
                     {renderTableRows()}
+                    <tr>
+                        <td colSpan={3} className="px-4 py-2">&nbsp;</td>
+                    </tr>
                 </tbody>
             </table>
         </div>

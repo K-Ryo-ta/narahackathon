@@ -19,12 +19,6 @@ const Page5 = () => {
     const [progress, setProgress] = useState<number>(80);
     const stateInfo = useContext(StateContext);
 
-    useEffect(() => {
-        if (docId) {
-            aggregateStats(docId);
-        }
-    }, [docId]);
-
     const IsBrank = (props: string) => {
         // if (props == "/^\s*$/") return false;
         // else return true;
@@ -36,13 +30,7 @@ const Page5 = () => {
         console.log(IsBrank(stateInfo.q5));
         if (stateInfo.q5) {
             if (!IsBrank(stateInfo.q5)) {
-                const docID = await saveResponse("q5", answer);
-                if (docID) {
-                    stateInfo.docRefID5 = docID;
-                    setDocId(docID); // 修正
-                }
                 // 回答が選択されている場合は次のページに遷移
-                console.log(stateInfo.q5);
                 router.push('/finish');
             } else {
                 alert('文字を入力してください');

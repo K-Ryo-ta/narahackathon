@@ -7,7 +7,6 @@ import Page5 from './q5/page';
 import FinishPage from './finish/page';
 
 type StateType = {
-    question: number;
     q1: string;
     q2: string;
     q3: string;
@@ -18,10 +17,10 @@ type StateType = {
     docRefID3: string | null;
     docRefID4: string | null;
     docRefID5: string | null;
+    [key: string]: string | null;
 };
 
 const stateInfo: StateType = {
-    question: 5,
     q1: "",
     q2: "",
     q3: "",
