@@ -3,7 +3,7 @@ import { collection, addDoc, updateDoc, increment, setDoc, getDocs } from 'fireb
 import { serverTimestamp } from 'firebase/firestore';
 import { doc, getDoc } from "firebase/firestore";
 import { useContext } from 'react';
-import { ResponseContext } from '../app/stateManegement'
+// import { ResponseContext } from '../app/stateManegement'
 
 
 export const saveResponse = async (questionKey: string, selectedAnswer: string | null) => {

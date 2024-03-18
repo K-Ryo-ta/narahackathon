@@ -1,10 +1,10 @@
 import { useEffect, useRef } from 'react';
-import Chart, { DoughnutAnimationOptions } from 'chart.js/auto';
+import Chart from 'chart.js/auto';
 import { DocumentData } from 'firebase/firestore';
 
 const ResultChart = ({ aggregatedData, questionKey }: { aggregatedData: DocumentData; questionKey: string }) => {
     const chartRef = useRef<HTMLCanvasElement | null>(null);
-    const chartInstanceRef = useRef<Chart | null>(null);
+    const chartInstanceRef = useRef<Chart<'doughnut', number[], string> | null>(null);
 
     useEffect(() => {
         if (chartRef.current) {
@@ -53,7 +53,6 @@ const ResultChart = ({ aggregatedData, questionKey }: { aggregatedData: Document
                         ],
                     },
                     options: {
-                        indexAxis: 'y',
                         responsive: true,
                         plugins: {
                             legend: {
