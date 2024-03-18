@@ -16,8 +16,8 @@ const Page3 = () => {
     const [answer, setAnswer] = useState<string | null>(null);
     const [data, setData] = useState<DocumentData | null>(null);
     const [docId, setDocId] = useState<string | null>(null);
-    const stateInfo = useStateContext();
     const [progress, setProgress] = useState<number>(40);
+    const { state, setState } = useStateContext();
 
     useEffect(() => {
         if (docId) {
@@ -33,16 +33,20 @@ const Page3 = () => {
 
     const NextRouteHandleClick = async (event: MouseEvent<HTMLButtonElement, globalThis.MouseEvent>) => {
         event.preventDefault();
-        console.log(IsBrank(stateInfo.q3));
-        if (stateInfo.q3) {
-            if (!IsBrank(stateInfo.q3)) {
+        console.log(IsBrank(state.q3));
+        console.log(state.q3);
+        if (state.q3) {
+            if (!IsBrank(state.q3)) {
                 const docID = await saveResponse("q3", answer);
                 if (docID) {
-                    stateInfo.docRefID3 = docID;
-                    setDocId(docID); // 修正
+                    setState(prevState => ({
+                        ...prevState,
+                        docRefID3: docID,
+                    }));
+                    setDocId(docID);
                 }
                 // 回答が選択されている場合は次のページに遷移
-                console.log(stateInfo.q3);
+                console.log(state.q3);
                 router.push('/q4');
             } else {
                 alert('文字を入力してください');
@@ -59,13 +63,19 @@ const Page3 = () => {
 
     const handleAnswer = (selectedAnswer: string) => {
         setAnswer(selectedAnswer);
-        stateInfo.q3 = selectedAnswer;
         setProgress(60);
+        setState(prevState => ({
+            ...prevState,
+            q3: selectedAnswer,
+        }));
     }
 
     const handleOtherAnswer = (event: React.ChangeEvent<HTMLInputElement>) => {
         setAnswer(event.target.value);
-        stateInfo.q3 = event.target.value;
+        setState(prevState => ({
+            ...prevState,
+            q3: event.target.value,
+        }));
         setProgress(60);
     }
 

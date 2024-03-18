@@ -16,7 +16,7 @@ const Page1 = () => {
     const [data, setData] = useState<DocumentData | null>(null);
     const [docId, setDocId] = useState<string | null>(null);
     const [progress, setProgress] = useState<number>(0);
-    const stateInfo = useStateContext();
+    const { state, setState } = useStateContext();
 
     useEffect(() => {
         if (docId) {
@@ -29,8 +29,11 @@ const Page1 = () => {
         if (answer) {
             const docID = await saveResponse("q1", answer);
             if (docID) {
-                stateInfo.docRefID1 = docID;
-                setDocId(docID); // 修正
+                setState(prevState => ({
+                    ...prevState,
+                    docRefID1: docID,
+                }));
+                setDocId(docID);
             }
             // 回答が選択されている場合は次のページに遷移
             router.push('/q2');
@@ -49,7 +52,10 @@ const Page1 = () => {
         setAnswer(selectedAnswer);
         setProgress(20);
         //useContextを用いて答えをstateManegementのans1に保管
-        stateInfo.q1 = selectedAnswer;
+        setState(prevState => ({
+            ...prevState,
+            q1: selectedAnswer,
+        }));
     }
     //これがなおらんし意味わからん。
     //エラーが発生している原因は、サーバーサイドレンダリング（SSR）環境でwindowオブジェクトにアクセスしようとしているためです。windowオブジェクトはブラウザ環境でのみ利用可能であり、サーバー側では存在しません。

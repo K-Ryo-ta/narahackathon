@@ -35,7 +35,15 @@ const initialState: StateType = {
     docRefID5: null,
 };
 
-const StateContext = createContext<StateType>(initialState);
+type StateContextType = {
+    state: StateType;
+    setState: React.Dispatch<React.SetStateAction<StateType>>;
+};
+
+const StateContext = createContext<StateContextType>({
+    state: initialState,
+    setState: () => {},
+});
 
 export const useStateContext = () => useContext(StateContext);
 
@@ -43,8 +51,9 @@ export function StateProvider({ children }: { children: React.ReactNode }) {
     const [state, setState] = useState<StateType>(initialState);
 
     return (
-        <StateContext.Provider value={state}>
+        <StateContext.Provider value={{ state, setState }}>
             {children}
         </StateContext.Provider>
     );
 }
+

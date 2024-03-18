@@ -18,7 +18,7 @@ const Page2 = () => {
     const [data, setData] = useState<DocumentData | null>(null);
     const [docId, setDocId] = useState<string | null>(null);
     const [progress, setProgress] = useState<number>(20);
-    const stateInfo = useStateContext();
+    const { state, setState } = useStateContext();
 
     useEffect(() => {
         if (docId) {
@@ -31,8 +31,11 @@ const Page2 = () => {
         if (answer) {
             const docID = await saveResponse("q2", answer);
             if (docID) {
-                stateInfo.docRefID2 = docID;
-                setDocId(docID); // 修正
+                setState(prevState => ({
+                    ...prevState,
+                    docRefID2: docID,
+                }));
+                setDocId(docID);
             }
             // 回答が選択されている場合は次のページに遷移
             router.push('/q3');
@@ -51,7 +54,10 @@ const Page2 = () => {
         setAnswer(selectedAnswer);
         setProgress(40);
         //useContextを用いて答えをstateManegementのans1に保管
-        stateInfo.q2 = selectedAnswer;
+        setState(prevState => ({
+            ...prevState,
+            q2: selectedAnswer,
+        }));
     }
 
     useEffect(() => {

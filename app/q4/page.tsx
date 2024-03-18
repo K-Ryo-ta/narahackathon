@@ -17,7 +17,7 @@ const Page4 = () => {
     const [data, setData] = useState<DocumentData | null>(null);
     const [docId, setDocId] = useState<string | null>(null);
     const [progress, setProgress] = useState<number>(60);
-    const stateInfo = useStateContext();
+    const { state, setState } = useStateContext();
 
     useEffect(() => {
         if (docId) {
@@ -33,16 +33,19 @@ const Page4 = () => {
 
     const NextRouteHandleClick = async (event: MouseEvent<HTMLButtonElement, globalThis.MouseEvent>) => {
         event.preventDefault();
-        console.log(IsBrank(stateInfo.q4));
-        if (stateInfo.q4) {
-            if (!IsBrank(stateInfo.q4)) {
+        console.log(IsBrank(state.q4));
+        if (state.q4) {
+            if (!IsBrank(state.q4)) {
                 const docID = await saveResponse("q4", answer);
                 if (docID) {
-                    stateInfo.docRefID4 = docID;
-                    setDocId(docID); // 修正
+                    setState(prevState => ({
+                        ...prevState,
+                        docRefID4: docID,
+                    }));
+                    setDocId(docID);
                 }
                 // 回答が選択されている場合は次のページに遷移
-                console.log(stateInfo.q4);
+                console.log(state.q4);
                 router.push('/q5');
             } else {
                 alert('文字を入力してください');
@@ -60,11 +63,19 @@ const Page4 = () => {
     const handleAnswer = (selectedAnswer: string) => {
         setAnswer(selectedAnswer);
         setProgress(80);
-        stateInfo.q4 = selectedAnswer;
+        setState(prevState => ({
+            ...prevState,
+            q4: selectedAnswer,
+        }));
     }
 
     const handleOtherAnswer = (event: React.ChangeEvent<HTMLInputElement>) => {
         setAnswer(event.target.value);
+        setState(prevState => ({
+            ...prevState,
+            q4: event.target.value,
+        }));
+        setProgress(80);
     }
 
     useEffect(() => {
