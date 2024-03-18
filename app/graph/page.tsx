@@ -5,7 +5,7 @@ import { getAnswerData } from '@/lib/firebase';
 import { DocumentData } from 'firebase/firestore';
 import React, { useEffect, useState } from 'react'
 
-const page = () => {
+const Page = () => {
     const [data, setData] = useState<DocumentData[] | null>(null);
     useEffect(() => {
         const fetchData = async () => {
@@ -39,4 +39,4 @@ const page = () => {
     );
 };
 
-export default page;
+export default Page;
