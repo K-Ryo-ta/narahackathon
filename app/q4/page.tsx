@@ -65,6 +65,8 @@ const Page4 = () => {
 
     const handleOtherAnswer = (event: React.ChangeEvent<HTMLInputElement>) => {
         setAnswer(event.target.value);
+        stateInfo.q4 = event.target.value;
+        setProgress(80);
     }
 
     useEffect(() => {

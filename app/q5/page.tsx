@@ -65,6 +65,8 @@ const Page5 = () => {
 
     const handleOtherAnswer = (event: React.ChangeEvent<HTMLInputElement>) => {
         setAnswer(event.target.value);
+        stateInfo.q5 = event.target.value;
+        setProgress(100);
     }
 
     useEffect(() => {
