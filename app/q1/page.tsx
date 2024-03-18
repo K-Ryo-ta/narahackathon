@@ -5,7 +5,7 @@ import { useRouter } from 'next/navigation';
 import { MouseEvent } from 'react';
 import { Progress } from '@chakra-ui/react'
 import { useState, useEffect, useContext } from 'react';
-import { useStateContext } from "../stateManegement";
+import StateContext from "../stateManegement";
 import { aggregateStats, getData, saveResponse } from '@/lib/firebase';
 import { getAnalytics, isSupported } from 'firebase/analytics';
 import { DocumentData, DocumentReference } from "firebase/firestore";
@@ -16,7 +16,7 @@ const Page1 = () => {
     const [data, setData] = useState<DocumentData | null>(null);
     const [docId, setDocId] = useState<string | null>(null);
     const [progress, setProgress] = useState<number>(0);
-    const { state, setState } = useStateContext();
+    const stateInfo = useContext(StateContext);
 
     useEffect(() => {
         if (docId) {
@@ -29,11 +29,11 @@ const Page1 = () => {
         if (answer) {
             const docID = await saveResponse("q1", answer);
             if (docID) {
-                setState(prevState => ({
-                    ...prevState,
-                    docRefID1: docID,
-                }));
-                setDocId(docID);
+                stateInfo.docRefID1 = docID
+            }
+            console.log(stateInfo.docRefID1);
+            if (stateInfo.docRefID1) {
+                setDocId(stateInfo.docRefID1);
             }
             // 回答が選択されている場合は次のページに遷移
             router.push('/q2');
@@ -52,10 +52,7 @@ const Page1 = () => {
         setAnswer(selectedAnswer);
         setProgress(20);
         //useContextを用いて答えをstateManegementのans1に保管
-        setState(prevState => ({
-            ...prevState,
-            q1: selectedAnswer,
-        }));
+        stateInfo.q1 = selectedAnswer;
     }
     //これがなおらんし意味わからん。
     //エラーが発生している原因は、サーバーサイドレンダリング（SSR）環境でwindowオブジェクトにアクセスしようとしているためです。windowオブジェクトはブラウザ環境でのみ利用可能であり、サーバー側では存在しません。
