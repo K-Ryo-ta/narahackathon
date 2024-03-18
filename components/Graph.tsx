@@ -1,5 +1,5 @@
 import { useEffect, useRef } from 'react';
-import Chart from 'chart.js/auto';
+import Chart, { DoughnutAnimationOptions } from 'chart.js/auto';
 import { DocumentData } from 'firebase/firestore';
 
 const ResultChart = ({ aggregatedData }: { aggregatedData: DocumentData }) => {
@@ -23,7 +23,7 @@ const ResultChart = ({ aggregatedData }: { aggregatedData: DocumentData }) => {
         });
 
         chartInstanceRef.current = new Chart(ctx, {
-          type: 'bar',
+          type: 'doughnut',
           data: {
             labels: Object.keys(convertedData),
             datasets: [
@@ -76,7 +76,7 @@ const ResultChart = ({ aggregatedData }: { aggregatedData: DocumentData }) => {
     };
   }, [aggregatedData]);
 
-  return <canvas ref={chartRef} />;
+  return <canvas ref={chartRef} className='mt-10'/>;
 };
 
 export default ResultChart;

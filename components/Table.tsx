@@ -21,6 +21,8 @@ const Table = ({ aggregatedData }: { aggregatedData: DocumentData[] }) => {
                         <td className="px-4 py-2">Total</td>
                         <td className="px-4 py-2">{total}</td>
                     </tr>
+                    <br/>
+                    <br/>
                 </>
             );
         }
@@ -30,7 +32,7 @@ const Table = ({ aggregatedData }: { aggregatedData: DocumentData[] }) => {
     return (
         <div className="container mx-auto">
             <h2 className="text-2xl font-bold mb-4">アンケート結果</h2>
-            <table className="w-full bg-white shadow-md rounded-lg overflow-hidden">
+            <table className="w-full bg-white rounded-lg overflow-hidden">
                 <thead>
                     <tr className="bg-gray-200 text-gray-700">
                         <th className="px-4 py-2">選択肢</th>
