@@ -5,7 +5,7 @@ import { useRouter } from 'next/navigation';
 import { MouseEvent } from 'react';
 import { Progress } from '@chakra-ui/react'
 import { useState, useEffect, useContext } from 'react';
-import StateContext from "../stateManegement";
+import { useStateContext } from "../stateManegement";
 import { aggregateStats, getData, saveResponse } from '@/lib/firebase';
 import { getAnalytics, isSupported } from 'firebase/analytics';
 import { DocumentData, DocumentReference } from "firebase/firestore";
@@ -16,7 +16,7 @@ const Page1 = () => {
     const [data, setData] = useState<DocumentData | null>(null);
     const [docId, setDocId] = useState<string | null>(null);
     const [progress, setProgress] = useState<number>(0);
-    const stateInfo = useContext(StateContext);
+    const stateInfo = useStateContext();
 
     useEffect(() => {
         if (docId) {

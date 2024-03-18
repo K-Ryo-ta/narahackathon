@@ -9,14 +9,14 @@ import { aggregateStats, getData, saveResponse } from "@/lib/firebase";
 import { isSupported } from "firebase/analytics";
 import { getAnalytics } from "firebase/analytics";
 import { DocumentData, runTransaction } from "firebase/firestore";
-import StateContext from "../stateManegement";
+import { useStateContext } from "../stateManegement";
 
 const Page3 = () => {
     const router = useRouter();
     const [answer, setAnswer] = useState<string | null>(null);
     const [data, setData] = useState<DocumentData | null>(null);
     const [docId, setDocId] = useState<string | null>(null);
-    const stateInfo = useContext(StateContext);
+    const stateInfo = useStateContext();
     const [progress, setProgress] = useState<number>(40);
 
     useEffect(() => {
