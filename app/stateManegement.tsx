@@ -5,7 +5,6 @@ import Page3 from './q3/page';
 import Page4 from './q4/page';
 import Page5 from './q5/page';
 import FinishPage from './finish/page';
-import { saveResponse } from '@/lib/firebase';
 
 const stateInfo = {
     q1: "",
@@ -33,7 +32,6 @@ function StateManegement() {
                 <Page4 />
                 <Page5 />
                 <FinishPage />
-                <saveResponse />
             </StateContext.Provider>
         </div>
     );
