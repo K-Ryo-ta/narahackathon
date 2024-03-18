@@ -8,7 +8,6 @@ import React, { useEffect, useState } from 'react'
 
 const page = () => {
     const [data, setData] = useState<DocumentData[] | null>(null);
-
     useEffect(() => {
         const fetchData = async () => {
             try {
@@ -25,7 +24,11 @@ const page = () => {
     return (
         <div className=''>
             {data && <Table aggregatedData={data} />}
-            {data && <Graph aggregatedData={data} />}
+            {
+                data?.map((index:DocumentData)=>(
+                    index && <Graph aggregatedData={index} />
+                ))
+            }
         </div>
     );
 };

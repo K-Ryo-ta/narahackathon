@@ -2,7 +2,7 @@ import { useEffect, useRef } from 'react';
 import Chart from 'chart.js/auto';
 import { DocumentData } from 'firebase/firestore';
 
-const ResultChart = ({ aggregatedData }: { aggregatedData: DocumentData[] }) => {
+const ResultChart = ({ aggregatedData }: { aggregatedData: DocumentData }) => {
   const chartRef = useRef<HTMLCanvasElement | null>(null);
   const chartInstanceRef = useRef<Chart | null>(null);
 
@@ -16,12 +16,10 @@ const ResultChart = ({ aggregatedData }: { aggregatedData: DocumentData[] }) => 
 
         // aggregatedDataをオブジェクトに変換
         const convertedData: { [key: string]: number } = {};
-        aggregatedData.forEach((data) => {
-          Object.entries(data).forEach(([key, value]) => {
-            if (key !== 'total') {
-              convertedData[key] = value as number;
-            }
-          });
+        Object.entries(aggregatedData).forEach(([key, value]) => {
+          if (key !== 'total') {
+            convertedData[key] = value as number;
+          }
         });
 
         chartInstanceRef.current = new Chart(ctx, {
