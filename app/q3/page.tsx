@@ -38,11 +38,8 @@ const Page3 = () => {
             if (!IsBrank(stateInfo.q3)) {
                 const docID = await saveResponse("q3", answer);
                 if (docID) {
-                    stateInfo.docRefID3 = docID
-                }
-                console.log(stateInfo.docRefID3);
-                if (stateInfo.docRefID3) {
-                    setDocId(stateInfo.docRefID3);
+                    stateInfo.docRefID3 = docID;
+                    setDocId(docID); // 修正
                 }
                 // 回答が選択されている場合は次のページに遷移
                 console.log(stateInfo.q3);

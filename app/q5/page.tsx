@@ -25,22 +25,30 @@ const Page5 = () => {
         }
     }, [docId]);
 
+    const IsBrank = (props: string) => {
+        // if (props == "/^\s*$/") return false;
+        // else return true;
+        return /^\s*$/.test(props);
+    };
+
     const NextRouteHandleClick = async (event: MouseEvent<HTMLButtonElement, globalThis.MouseEvent>) => {
         event.preventDefault();
-        if (answer) {
-            const docID = await saveResponse("q5", answer);
-            if (docID) {
-                stateInfo.docRefID5 = docID
+        console.log(IsBrank(stateInfo.q5));
+        if (stateInfo.q5) {
+            if (!IsBrank(stateInfo.q5)) {
+                const docID = await saveResponse("q5", answer);
+                if (docID) {
+                    stateInfo.docRefID5 = docID;
+                    setDocId(docID); // 修正
+                }
+                // 回答が選択されている場合は次のページに遷移
+                console.log(stateInfo.q5);
+                router.push('/finish');
+            } else {
+                alert('文字を入力してください');
             }
-            console.log(stateInfo.docRefID5);
-            if (stateInfo.docRefID5) {
-                setDocId(stateInfo.docRefID5);
-            }
-            // 回答が選択されている場合は次のページに遷移
-            router.push('/finish');
         } else {
-            // 回答が選択されていない場合はアラートを表示
-            alert('回答を選択してください。');
+            alert('回答を選択してください');
         }
     }
 
