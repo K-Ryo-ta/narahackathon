@@ -29,11 +29,8 @@ const Page1 = () => {
         if (answer) {
             const docID = await saveResponse("q1", answer);
             if (docID) {
-                stateInfo.docRefID1 = docID
-            }
-            console.log(stateInfo.docRefID1);
-            if (stateInfo.docRefID1) {
-                setDocId(stateInfo.docRefID1);
+                stateInfo.docRefID1 = docID;
+                setDocId(docID); // 修正
             }
             // 回答が選択されている場合は次のページに遷移
             router.push('/q2');
