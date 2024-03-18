@@ -3,30 +3,28 @@ import SurveyForm from "@/components/SurveyForm";
 import { Button, ButtonGroup } from '@chakra-ui/react'
 import { useRouter } from 'next/navigation';
 import { MouseEvent } from 'react';
-import { Progress } from '@chakra-ui/react'
-import { useState, useContext } from 'react';
+import { useContext } from 'react';
 import StateContext from "../stateManegement";
 
 const FinishPage = () => {
     const router = useRouter();
-    const [answer, setAnswer] = useState<string | null>(null);
     const stateInfo = useContext(StateContext);
 
-    const NextRouteHandleClick = (event: MouseEvent<HTMLButtonElement, globalThis.MouseEvent>) => {
-        event.preventDefault();
-        if (answer) {
-            // 回答が選択されている場合は次のページに遷移
-            router.push('/finish');
-        } else {
-            // 回答が選択されていない場合はアラートを表示
-            alert('回答を選択してください。');
-        }
-    }
+    // const NextRouteHandleClick = (event: MouseEvent<HTMLButtonElement, globalThis.MouseEvent>) => {
+    //     event.preventDefault();
+    //     if (answer) {
+    //         // 回答が選択されている場合は次のページに遷移
+    //         router.push('/finish');
+    //     } else {
+    //         // 回答が選択されていない場合はアラートを表示
+    //         alert('回答を選択してください。');
+    //     }
+    // }
 
-    const BackRouteHandleClick = (event: MouseEvent<HTMLButtonElement, globalThis.MouseEvent>) => {
-        event.preventDefault();
-        router.push('/q4');
-    }
+    // const BackRouteHandleClick = (event: MouseEvent<HTMLButtonElement, globalThis.MouseEvent>) => {
+    //     event.preventDefault();
+    //     router.push('/q4');
+    // }
 
     const handleAdvice = (event: MouseEvent<HTMLButtonElement, globalThis.MouseEvent>) => {
         event.preventDefault();

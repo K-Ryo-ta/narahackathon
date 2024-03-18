@@ -8,7 +8,7 @@ import { useState, useEffect, useContext } from 'react';
 import StateContext from "../stateManegement";
 import { aggregateStats, getData, saveResponse } from '@/lib/firebase';
 import { getAnalytics, isSupported } from 'firebase/analytics';
-import { DocumentData } from "firebase/firestore";
+import { DocumentData, DocumentReference } from "firebase/firestore";
 
 const Page1 = () => {
     const router = useRouter();
@@ -27,10 +27,13 @@ const Page1 = () => {
     const NextRouteHandleClick = async (event: MouseEvent<HTMLButtonElement, globalThis.MouseEvent>) => {
         event.preventDefault();
         if (answer) {
-            const docRefId = await saveResponse("q1", answer);
-            console.log(docRefId);
-            if (docRefId) {
-                setDocId(docRefId);
+            const docID = await saveResponse("q1", answer);
+            if (docID) {
+                stateInfo.docRefID1 = docID
+            }
+            console.log(stateInfo.docRefID1);
+            if (stateInfo.docRefID1) {
+                setDocId(stateInfo.docRefID1);
             }
             // 回答が選択されている場合は次のページに遷移
             router.push('/q2');
