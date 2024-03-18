@@ -9,7 +9,7 @@ import { aggregateStats, getData, saveResponse } from "@/lib/firebase";
 import { isSupported } from "firebase/analytics";
 import { getAnalytics } from "firebase/analytics";
 import { DocumentData } from "firebase/firestore";
-import { useStateContext } from "../stateManegement";
+import StateContext from "../stateManegement";
 
 const Page5 = () => {
     const router = useRouter();
@@ -17,7 +17,7 @@ const Page5 = () => {
     const [data, setData] = useState<DocumentData | null>(null);
     const [docId, setDocId] = useState<string | null>(null);
     const [progress, setProgress] = useState<number>(80);
-    const stateInfo = useStateContext();
+    const stateInfo = useContext(StateContext);
 
     useEffect(() => {
         if (docId) {
@@ -25,30 +25,22 @@ const Page5 = () => {
         }
     }, [docId]);
 
-    const IsBrank = (props: string) => {
-        // if (props == "/^\s*$/") return false;
-        // else return true;
-        return /^\s*$/.test(props);
-    };
-
     const NextRouteHandleClick = async (event: MouseEvent<HTMLButtonElement, globalThis.MouseEvent>) => {
         event.preventDefault();
-        console.log(IsBrank(stateInfo.q5));
-        if (stateInfo.q5) {
-            if (!IsBrank(stateInfo.q5)) {
-                const docID = await saveResponse("q5", answer);
-                if (docID) {
-                    stateInfo.docRefID5 = docID;
-                    setDocId(docID); // 修正
-                }
-                // 回答が選択されている場合は次のページに遷移
-                console.log(stateInfo.q5);
-                router.push('/finish');
-            } else {
-                alert('文字を入力してください');
+        if (answer) {
+            const docID = await saveResponse("q5", answer);
+            if (docID) {
+                stateInfo.docRefID5 = docID
             }
+            console.log(stateInfo.docRefID5);
+            if (stateInfo.docRefID5) {
+                setDocId(stateInfo.docRefID5);
+            }
+            // 回答が選択されている場合は次のページに遷移
+            router.push('/finish');
         } else {
-            alert('回答を選択してください');
+            // 回答が選択されていない場合はアラートを表示
+            alert('回答を選択してください。');
         }
     }
 

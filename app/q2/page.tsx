@@ -9,7 +9,7 @@ import { aggregateStats, getData, saveResponse } from "@/lib/firebase";
 import { isSupported } from "firebase/analytics";
 import { getAnalytics } from "firebase/analytics";
 import { DocumentData } from "firebase/firestore";
-import { useStateContext } from "../stateManegement";
+import StateContext from "../stateManegement";
 
 
 const Page2 = () => {
@@ -18,7 +18,7 @@ const Page2 = () => {
     const [data, setData] = useState<DocumentData | null>(null);
     const [docId, setDocId] = useState<string | null>(null);
     const [progress, setProgress] = useState<number>(20);
-    const stateInfo = useStateContext();
+    const stateInfo = useContext(StateContext);
 
     useEffect(() => {
         if (docId) {
@@ -31,8 +31,11 @@ const Page2 = () => {
         if (answer) {
             const docID = await saveResponse("q2", answer);
             if (docID) {
-                stateInfo.docRefID2 = docID;
-                setDocId(docID); // 修正
+                stateInfo.docRefID2 = docID
+            }
+            console.log(stateInfo.docRefID2);
+            if (stateInfo.docRefID2) {
+                setDocId(stateInfo.docRefID2);
             }
             // 回答が選択されている場合は次のページに遷移
             router.push('/q3');

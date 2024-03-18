@@ -8,15 +8,16 @@ import { useState, useEffect, useContext } from 'react';
 import { aggregateStats, getData, saveResponse } from "@/lib/firebase";
 import { isSupported } from "firebase/analytics";
 import { getAnalytics } from "firebase/analytics";
-import { DocumentData, runTransaction } from "firebase/firestore";
-import { useStateContext } from "../stateManegement";
+import { DocumentData } from "firebase/firestore";
+import StateContext from "../stateManegement";
+
 
 const Page3 = () => {
     const router = useRouter();
     const [answer, setAnswer] = useState<string | null>(null);
     const [data, setData] = useState<DocumentData | null>(null);
     const [docId, setDocId] = useState<string | null>(null);
-    const stateInfo = useStateContext();
+    const stateInfo = useContext(StateContext);
     const [progress, setProgress] = useState<number>(40);
 
     useEffect(() => {
@@ -25,32 +26,24 @@ const Page3 = () => {
         }
     }, [docId]);
 
-    const IsBrank = (props: string) => {
-        // if (props == "/^\s*$/") return false;
-        // else return true;
-        return /^\s*$/.test(props);
-    };
-
     const NextRouteHandleClick = async (event: MouseEvent<HTMLButtonElement, globalThis.MouseEvent>) => {
         event.preventDefault();
-        console.log(IsBrank(stateInfo.q3));
-        if (stateInfo.q3) {
-            if (!IsBrank(stateInfo.q3)) {
-                const docID = await saveResponse("q3", answer);
-                if (docID) {
-                    stateInfo.docRefID3 = docID;
-                    setDocId(docID); // 修正
-                }
-                // 回答が選択されている場合は次のページに遷移
-                console.log(stateInfo.q3);
-                router.push('/q4');
-            } else {
-                alert('文字を入力してください');
+        if (answer) {
+            const docID = await saveResponse("q3", answer);
+            if (docID) {
+                stateInfo.docRefID3 = docID
             }
+            console.log(stateInfo.docRefID3);
+            if (stateInfo.docRefID3) {
+                setDocId(stateInfo.docRefID3);
+            }
+            // 回答が選択されている場合は次のページに遷移
+            router.push('/q4');
         } else {
-            alert('回答を選択してください');
+            // 回答が選択されていない場合はアラートを表示
+            alert('回答を選択してください。');
         }
-    };
+    }
 
     const BackRouteHandleClick = (event: MouseEvent<HTMLButtonElement, globalThis.MouseEvent>) => {
         event.preventDefault();
@@ -65,8 +58,6 @@ const Page3 = () => {
 
     const handleOtherAnswer = (event: React.ChangeEvent<HTMLInputElement>) => {
         setAnswer(event.target.value);
-        stateInfo.q3 = event.target.value;
-        setProgress(60);
     }
 
     useEffect(() => {
@@ -111,8 +102,7 @@ const Page3 = () => {
 
             <br />
             <br />
-            <h1 className="w-[80%] mx-auto font-extrabold">
-                問3）
+            <h1 className="w-[80%] mx-auto font-extrabold">問3）
                 {
                     data?.text
                 }
