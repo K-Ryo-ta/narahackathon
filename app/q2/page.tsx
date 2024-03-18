@@ -20,20 +20,9 @@ const Page2 = () => {
     const [progress, setProgress] = useState<number>(20);
     const stateInfo = useContext(StateContext);
 
-    useEffect(() => {
-        if (docId) {
-            aggregateStats(docId);
-        }
-    }, [docId]);
-
     const NextRouteHandleClick = async (event: MouseEvent<HTMLButtonElement, globalThis.MouseEvent>) => {
         event.preventDefault();
-        if (answer) {
-            const docID = await saveResponse("q2", answer);
-            if (docID) {
-                stateInfo.docRefID2 = docID;
-                setDocId(docID); // 修正
-            }
+        if (stateInfo.q2) {
             // 回答が選択されている場合は次のページに遷移
             router.push('/q3');
         } else {

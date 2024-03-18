@@ -17,21 +17,10 @@ const Page1 = () => {
     const [docId, setDocId] = useState<string | null>(null);
     const [progress, setProgress] = useState<number>(0);
     const stateInfo = useContext(StateContext);
-
-    useEffect(() => {
-        if (docId) {
-            aggregateStats(docId);
-        }
-    }, [docId]);
-
+    
     const NextRouteHandleClick = async (event: MouseEvent<HTMLButtonElement, globalThis.MouseEvent>) => {
         event.preventDefault();
-        if (answer) {
-            const docID = await saveResponse("q1", answer);
-            if (docID) {
-                stateInfo.docRefID1 = docID;
-                setDocId(docID); // 修正
-            }
+        if (stateInfo.q1) {
             // 回答が選択されている場合は次のページに遷移
             router.push('/q2');
         } else {

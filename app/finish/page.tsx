@@ -2,32 +2,41 @@
 import SurveyForm from "@/components/SurveyForm";
 import { Button, ButtonGroup } from '@chakra-ui/react'
 import { useRouter } from 'next/navigation';
-import { MouseEvent } from 'react';
+import { MouseEvent, useEffect, useState } from 'react';
 import { useContext } from 'react';
 import StateContext from "../stateManegement";
+import { aggregateStats, saveResponse } from "@/lib/firebase";
 
 const FinishPage = () => {
     const router = useRouter();
     const stateInfo = useContext(StateContext);
+    const [docId, setDocId] = useState<string | null>(null);
 
-    // const NextRouteHandleClick = (event: MouseEvent<HTMLButtonElement, globalThis.MouseEvent>) => {
-    //     event.preventDefault();
-    //     if (answer) {
-    //         // 回答が選択されている場合は次のページに遷移
-    //         router.push('/finish');
-    //     } else {
-    //         // 回答が選択されていない場合はアラートを表示
-    //         alert('回答を選択してください。');
-    //     }
-    // }
+    useEffect(() => {
+        if (docId) {
+            console.log(docId);
+            aggregateStats(docId);
+        }
+    }, [docId]);
 
-    // const BackRouteHandleClick = (event: MouseEvent<HTMLButtonElement, globalThis.MouseEvent>) => {
-    //     event.preventDefault();
-    //     router.push('/q4');
-    // }
-
-    const handleAdvice = (event: MouseEvent<HTMLButtonElement, globalThis.MouseEvent>) => {
+    const handleAdvice = async (event: MouseEvent<HTMLButtonElement, globalThis.MouseEvent>) => {
         event.preventDefault();
+
+        for (let i = 1; i < 6; i++) {
+            const questionKey = `q${i}`;
+            const answer = stateInfo[questionKey];
+            console.log(answer);
+
+            if (answer) {
+                const docID = await saveResponse(questionKey, answer);
+                console.log(docID);
+                if (docID) {
+                    stateInfo[`docRefID${i}`] = docID;
+                    setDocId(docID);
+                }
+            }
+        }
+
         router.push('/advice');
         alert('アンケートにご協力いただきありがとうございます。');
     }
