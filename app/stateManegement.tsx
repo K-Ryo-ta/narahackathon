@@ -5,19 +5,14 @@ import Page3 from './q3/page';
 import Page4 from './q4/page';
 import Page5 from './q5/page';
 import FinishPage from './finish/page';
-import { saveResponse } from '@/lib/firebase';
 
 const stateInfo = {
+    question: 5,
     q1: "",
     q2: "",
     q3: "",
     q4: "",
     q5: "",
-    docRefID1: "",
-    docRefID2: "",
-    docRefID3: "",
-    docRefID4: "",
-    docRefID5: "",
 };
 
 const StateContext = createContext(stateInfo);
@@ -33,7 +28,6 @@ function StateManegement() {
                 <Page4 />
                 <Page5 />
                 <FinishPage />
-                <saveResponse />
             </StateContext.Provider>
         </div>
     );
