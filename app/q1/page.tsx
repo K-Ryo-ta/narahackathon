@@ -14,6 +14,7 @@ const page = () => {
     const [answer, setAnswer] = useState<string | null>(null);
     const [data, setData] = useState<DocumentData | null>(null);
     const [docId, setDocId] = useState<string | null>(null);
+    const [progress, setProgress] = useState<number>(0);
 
     useEffect(() => {
         if (docId) {
@@ -44,6 +45,7 @@ const page = () => {
 
     const handleAnswer = (selectedAnswer: string) => {
         setAnswer(selectedAnswer);
+        setProgress(20);
     }
     //これがなおらんし意味わからん。
     //エラーが発生している原因は、サーバーサイドレンダリング（SSR）環境でwindowオブジェクトにアクセスしようとしているためです。windowオブジェクトはブラウザ環境でのみ利用可能であり、サーバー側では存在しません。
@@ -81,10 +83,10 @@ const page = () => {
             <br />
             <div className="flex justify-center shadow-2xl">
                 <div className="w-[70%] shadow-md">
-                    <Progress value={20} colorScheme='green' size='lg' />
+                    <Progress value={progress} colorScheme='green' size='lg' />
                 </div>
                 <p className="font-bold text-xs">
-                    20%
+                    {progress}
                 </p>
             </div>
 
