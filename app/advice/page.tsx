@@ -1,9 +1,11 @@
-import React from 'react'
+import React from 'react';
 
 const page = () => {
     return (
-        <div>page</div>
+        <div className='mx-auto'>
+            <img src="/images/coupon.svg" alt="Coupon image" className='mx-auto' />
+        </div>
     )
 }
 
-export default page
+export default page;
