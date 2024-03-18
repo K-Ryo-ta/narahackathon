@@ -22,13 +22,16 @@ const page = () => {
     }, []);
 
     return (
-        <div className=''>
+        <div className='flex w-full'>
             {data && <Table aggregatedData={data} />}
+            <div className='w-[17%]'>
             {
                 data?.map((index:DocumentData)=>(
                     index && <Graph aggregatedData={index} />
                 ))
             }
+            </div>
+            
         </div>
     );
 };
