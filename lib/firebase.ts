@@ -67,8 +67,7 @@ export const aggregateStats = async (docId: string | null) => {
 }
 
 export const getAnswerData = async () => {
-    const answersSnapshot = await getDocs(collection(db, 'questionStats'));
-    const answersData = answersSnapshot.docs.map((doc) => doc.data());
-    console.log(answersData);
-    return answersData;
+  const answersSnapshot = await getDocs(collection(db, 'questionStats'));
+  const answersData = answersSnapshot.docs.map((doc) => doc.data());
+  return answersData;
 };
