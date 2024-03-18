@@ -28,10 +28,13 @@ const Page4 = () => {
     const NextRouteHandleClick = async (event: MouseEvent<HTMLButtonElement, globalThis.MouseEvent>) => {
         event.preventDefault();
         if (answer) {
-            const docRefId = await saveResponse("q4", answer);
-            console.log(docRefId);
-            if (docRefId) {
-                setDocId(docRefId);
+            const docID = await saveResponse("q4", answer);
+            if (docID) {
+                stateInfo.docRefID4 = docID
+            }
+            console.log(stateInfo.docRefID4);
+            if (stateInfo.docRefID4) {
+                setDocId(stateInfo.docRefID4);
             }
             // 回答が選択されている場合は次のページに遷移
             router.push('/q5');
@@ -55,7 +58,6 @@ const Page4 = () => {
     const handleOtherAnswer = (event: React.ChangeEvent<HTMLInputElement>) => {
         setAnswer(event.target.value);
     }
-    console.log(answer);
 
     useEffect(() => {
         const initializeAnalytics = async () => {

@@ -2,6 +2,8 @@ import { db } from '../firebase.config';
 import { collection, addDoc, updateDoc, increment, setDoc, getDocs } from 'firebase/firestore';
 import { serverTimestamp } from 'firebase/firestore';
 import { doc, getDoc } from "firebase/firestore";
+import { useContext } from 'react';
+import { ResponseContext } from '../app/stateManegement'
 
 
 export const saveResponse = async (questionKey: string, selectedAnswer: string | null) => {
@@ -19,6 +21,7 @@ export const saveResponse = async (questionKey: string, selectedAnswer: string |
     }
 }
 
+
 export const getData = async (questionKey: string) => {
     const docRef = doc(db, "questions", questionKey);
     const questionSnapshot = await getDoc(docRef);
@@ -31,15 +34,15 @@ export const getData = async (questionKey: string) => {
     }
 }
 
-export const aggregateStats = async (docId : string | null) => {
-    if(docId){
+export const aggregateStats = async (docId: string | null) => {
+    if (docId) {
         const docRef = doc(db, "surveys", docId);
         const docSnap = await getDoc(docRef);
-    
+
         if (docSnap.exists()) {
             const surveyData = docSnap.data();
             for (const questionKey in surveyData) {
-                if (surveyData.hasOwnProperty(questionKey) && questionKey !== 'createdAt'){
+                if (surveyData.hasOwnProperty(questionKey) && questionKey !== 'createdAt') {
                     const answer = surveyData[questionKey];
                     const questionStatsRef = doc(db, 'questionStats', questionKey);
                     const questionStatsSnapshot = await getDoc(questionStatsRef);
@@ -54,7 +57,7 @@ export const aggregateStats = async (docId : string | null) => {
                             total: 1,
                         });
                     }
-                
+
                 }
             }
         } else {
@@ -64,8 +67,8 @@ export const aggregateStats = async (docId : string | null) => {
 }
 
 export const getAnswerData = async () => {
-  const answersSnapshot = await getDocs(collection(db, 'questionStats'));
-  const answersData = answersSnapshot.docs.map((doc) => doc.data());
-  console.log(answersData);
-  return answersData;
+    const answersSnapshot = await getDocs(collection(db, 'questionStats'));
+    const answersData = answersSnapshot.docs.map((doc) => doc.data());
+    console.log(answersData);
+    return answersData;
 };
