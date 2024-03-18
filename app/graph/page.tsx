@@ -1,4 +1,3 @@
-// page.tsx
 'use client'
 import Graph from '@/components/Graph';
 import Table from '@/components/Table';
