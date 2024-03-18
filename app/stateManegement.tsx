@@ -1,3 +1,4 @@
+// stateManegement.tsx
 import { createContext, useContext, useState } from 'react';
 import Page1 from './q1/page';
 import Page2 from './q2/page';
@@ -20,7 +21,7 @@ type StateType = {
     docRefID5: string | null; 
   };
 
-const stateInfo :StateType = {
+const stateInfo: StateType = {
     question: 5,
     q1: "",
     q2: "",
