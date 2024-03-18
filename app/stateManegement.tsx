@@ -7,16 +7,12 @@ import Page5 from './q5/page';
 import FinishPage from './finish/page';
 
 const stateInfo = {
+    question: 5,
     q1: "",
     q2: "",
     q3: "",
     q4: "",
     q5: "",
-    docRefID1: "",
-    docRefID2: "",
-    docRefID3: "",
-    docRefID4: "",
-    docRefID5: "",
 };
 
 const StateContext = createContext(stateInfo);
