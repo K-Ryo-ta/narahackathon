@@ -13,7 +13,7 @@ export default function Home() {
   }
 
   return (
-    <div className="max-w-[340px] mx-auto rounded-2xl w-[90vw] bg-gray-100 mt-5 ">
+    <div className="max-w-[340px] mx-auto rounded-2xl bg-gray-100 w-[90vw]  mt-5 ">
       <br />
       <br />
       <h1 className="w-[80%] text-center mx-auto font-extrabold">この度はご利用いただき誠にありがとうございます!</h1>
