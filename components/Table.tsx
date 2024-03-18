@@ -8,18 +8,21 @@ const Table = ({ aggregatedData }: { aggregatedData: DocumentData[] }) => {
             const data = aggregatedData[index];
             const total = data.total;
             const entries = Object.entries(data).filter(([key]) => key !== 'total');
-
+            let percentage: number = 0;
             return (
                 <>
                     {entries.map(([key, value]) => (
+                        percentage = (value / total) * 100,
                         <tr key={key} className="border-b">
                             <td className="px-4 py-2">{key}</td>
                             <td className="px-4 py-2">{value}</td>
+                            <td className="px-4 py-2">{percentage.toFixed(1)}%</td>
                         </tr>
                     ))}
                     <tr className="bg-gray-100 font-bold">
                         <td className="px-4 py-2">Total</td>
                         <td className="px-4 py-2">{total}</td>
+                        <td className="px-4 py-2">100%</td>
                     </tr>
                     <br/>
                     <br/>
@@ -37,6 +40,7 @@ const Table = ({ aggregatedData }: { aggregatedData: DocumentData[] }) => {
                     <tr className="bg-gray-200 text-gray-700">
                         <th className="px-4 py-2">選択肢</th>
                         <th className="px-4 py-2">回答数</th>
+                        <th className="px-4 py-2">割合</th>
                     </tr>
                 </thead>
                 <tbody>
