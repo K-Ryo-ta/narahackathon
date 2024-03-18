@@ -4,17 +4,20 @@ import { Button, ButtonGroup } from '@chakra-ui/react'
 import { useRouter } from 'next/navigation';
 import { MouseEvent, } from 'react';
 import { Progress } from '@chakra-ui/react'
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import { aggregateStats, getData, saveResponse } from "@/lib/firebase";
 import { isSupported } from "firebase/analytics";
 import { getAnalytics } from "firebase/analytics";
 import { DocumentData } from "firebase/firestore";
+import StateContext from "../stateManegement";
 
-const page = () => {
+
+const Page3 = () => {
     const router = useRouter();
     const [answer, setAnswer] = useState<string | null>(null);
     const [data, setData] = useState<DocumentData | null>(null);
     const [docId, setDocId] = useState<string | null>(null);
+    const stateInfo = useContext(StateContext);
     const [progress, setProgress] = useState<number>(40);
 
     useEffect(() => {
@@ -46,6 +49,7 @@ const page = () => {
 
     const handleAnswer = (selectedAnswer: string) => {
         setAnswer(selectedAnswer);
+        stateInfo.q3 = selectedAnswer;
         setProgress(60);
     }
 
@@ -180,4 +184,4 @@ const page = () => {
     )
 }
 
-export default page
+export default Page3;

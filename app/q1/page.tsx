@@ -4,17 +4,19 @@ import { Button, ButtonGroup } from '@chakra-ui/react'
 import { useRouter } from 'next/navigation';
 import { MouseEvent } from 'react';
 import { Progress } from '@chakra-ui/react'
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useContext } from 'react';
+import StateContext from "../stateManegement";
 import { aggregateStats, getData, saveResponse } from '@/lib/firebase';
 import { getAnalytics, isSupported } from 'firebase/analytics';
 import { DocumentData } from "firebase/firestore";
 
-const page = () => {
+const Page1 = () => {
     const router = useRouter();
     const [answer, setAnswer] = useState<string | null>(null);
     const [data, setData] = useState<DocumentData | null>(null);
     const [docId, setDocId] = useState<string | null>(null);
     const [progress, setProgress] = useState<number>(0);
+    const stateInfo = useContext(StateContext);
 
     useEffect(() => {
         if (docId) {
@@ -46,6 +48,8 @@ const page = () => {
     const handleAnswer = (selectedAnswer: string) => {
         setAnswer(selectedAnswer);
         setProgress(20);
+        //useContextを用いて答えをstateManegementのans1に保管
+        stateInfo.q1 = selectedAnswer;
     }
     //これがなおらんし意味わからん。
     //エラーが発生している原因は、サーバーサイドレンダリング（SSR）環境でwindowオブジェクトにアクセスしようとしているためです。windowオブジェクトはブラウザ環境でのみ利用可能であり、サーバー側では存在しません。
@@ -146,5 +150,4 @@ const page = () => {
     )
 }
 
-export default page
-
+export default Page1;
