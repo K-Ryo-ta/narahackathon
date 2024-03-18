@@ -9,7 +9,7 @@ import { aggregateStats, getData, saveResponse } from "@/lib/firebase";
 import { isSupported } from "firebase/analytics";
 import { getAnalytics } from "firebase/analytics";
 import { DocumentData } from "firebase/firestore";
-import StateContext from "../stateManegement";
+import { useStateContext } from "../stateManegement";
 
 
 const Page2 = () => {
@@ -18,7 +18,7 @@ const Page2 = () => {
     const [data, setData] = useState<DocumentData | null>(null);
     const [docId, setDocId] = useState<string | null>(null);
     const [progress, setProgress] = useState<number>(20);
-    const stateInfo = useContext(StateContext);
+    const stateInfo = useStateContext();
 
     useEffect(() => {
         if (docId) {

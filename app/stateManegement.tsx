@@ -19,9 +19,9 @@ type StateType = {
     docRefID3: string | null; 
     docRefID4: string | null; 
     docRefID5: string | null; 
-  };
+};
 
-const stateInfo: StateType = {
+const initialState: StateType = {
     question: 5,
     q1: "",
     q2: "",
@@ -35,22 +35,16 @@ const stateInfo: StateType = {
     docRefID5: null,
 };
 
-const StateContext = createContext(stateInfo);
+const StateContext = createContext<StateType>(initialState);
 
-function StateManegement() {
+export const useStateContext = () => useContext(StateContext);
+
+export function StateProvider({ children }: { children: React.ReactNode }) {
+    const [state, setState] = useState<StateType>(initialState);
 
     return (
-        <div className="StateMangement">
-            <StateContext.Provider value={stateInfo}>
-                <Page1 />
-                <Page2 />
-                <Page3 />
-                <Page4 />
-                <Page5 />
-                <FinishPage />
-            </StateContext.Provider>
-        </div>
+        <StateContext.Provider value={state}>
+            {children}
+        </StateContext.Provider>
     );
 }
-
-export default StateContext;

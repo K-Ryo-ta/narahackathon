@@ -4,11 +4,11 @@ import { Button, ButtonGroup } from '@chakra-ui/react'
 import { useRouter } from 'next/navigation';
 import { MouseEvent } from 'react';
 import { useContext } from 'react';
-import StateContext from "../stateManegement";
+import { useStateContext } from "../stateManegement";
 
 const FinishPage = () => {
     const router = useRouter();
-    const stateInfo = useContext(StateContext);
+    const stateInfo = useStateContext();
 
     // const NextRouteHandleClick = (event: MouseEvent<HTMLButtonElement, globalThis.MouseEvent>) => {
     //     event.preventDefault();
