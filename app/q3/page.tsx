@@ -2,9 +2,9 @@
 import SurveyForm from "@/components/SurveyForm";
 import { Button, ButtonGroup } from '@chakra-ui/react'
 import { useRouter } from 'next/navigation';
-import { MouseEvent,  } from 'react';
+import { MouseEvent, } from 'react';
 import { Progress } from '@chakra-ui/react'
-import { useState,useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { aggregateStats, getData, saveResponse } from "@/lib/firebase";
 import { isSupported } from "firebase/analytics";
 import { getAnalytics } from "firebase/analytics";
@@ -15,13 +15,14 @@ const page = () => {
     const [answer, setAnswer] = useState<string | null>(null);
     const [data, setData] = useState<DocumentData | null>(null);
     const [docId, setDocId] = useState<string | null>(null);
+    const [progress, setProgress] = useState<number>(40);
 
     useEffect(() => {
         if (docId) {
             aggregateStats(docId);
         }
     }, [docId]);
-    
+
     const NextRouteHandleClick = async (event: MouseEvent<HTMLButtonElement, globalThis.MouseEvent>) => {
         event.preventDefault();
         if (answer) {
@@ -45,6 +46,7 @@ const page = () => {
 
     const handleAnswer = (selectedAnswer: string) => {
         setAnswer(selectedAnswer);
+        setProgress(60);
     }
 
     const handleOtherAnswer = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -84,10 +86,10 @@ const page = () => {
             <br />
             <div className="flex justify-center shadow-2xl">
                 <div className="w-[70%] shadow-md">
-                    <Progress value={60} colorScheme='green' size='lg' />
+                    <Progress value={progress} colorScheme='green' size='lg' />
                 </div>
                 <p className="font-bold text-xs">
-                    60%
+                    {progress}
                 </p>
             </div>
 
